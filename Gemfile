@@ -4,6 +4,7 @@ gem 'standalone_migrations'
 
 group :development do
   gem 'sqlite3', '1.3.5'
+  gem 'rspec'
 end
 
 group :test do

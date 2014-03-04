@@ -1,0 +1,11 @@
+- Use of 'lib' instead of 'app'
+- Skipping of records that don't have a ID
+    - Assumption is that all players inside batting_stat have an ID.  If a ID has been computed then it should be in both files. It doesn't make sense that ID is present in one file but one the other.
+    - If we start to create IDs there is no guarantee that they wont' clash with the 3rd-party IDs as the file is further processed
+    - Re-processing the file becomes problematic since there is no way to guarantee uniqueness.  For example, if I create the ID 'brown01' for
+        ,,,Brown
+      and next time around when I am re-processing the file and it has new entries:
+        brown01,1984,,Brown
+        ,,,Brown
+      I have no way of knowing that ",,,Brown" is the existing entry and "brown01,1984,,Brown" is the new entry
+      
