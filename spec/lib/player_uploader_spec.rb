@@ -1,9 +1,5 @@
 require 'spec_helper'
 
-def fixture_file_path(file_name)
-  File.expand_path "../../fixtures/files/#{file_name}", __FILE__
-end
-
 describe PlayerUploader do
   describe "#upload" do
     context 'when file is valid' do
@@ -24,6 +20,11 @@ describe PlayerUploader do
         skipped_records = PlayerUploader.upload fixture_file_path('valid_has_existing_players.csv')
         expect(Player.count).to eq(3)
         expect(skipped_records.count).to eq(0)
+        
+        updated_player = Player.where(player_legacy_id: 'Legacy2').first
+        updated_player.first_name.should eq('First 2')
+        updated_player.last_name.should eq('Last 2')
+        updated_player.birth_year.should eq(2)  
       end
     end
     
@@ -49,4 +50,5 @@ describe PlayerUploader do
    
   end
 end
+
 

@@ -2,7 +2,7 @@ class BattingStats < ActiveRecord::Migration
   def up
     create_table :batting_stats do |t|
       t.integer   :player_id
-      t.string     :team
+      t.string    :team
       t.integer   :year
       t.integer   :at_bats
       t.integer   :hits
