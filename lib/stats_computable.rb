@@ -8,7 +8,7 @@ module StatsComputable
   end
   
   def compute_most_improved_batting_average(miba_opts)
-    player_stats = BattingStat.players_by_batting_average_improvements miba_opts
+    player_stats = BattingStat.batting_average_improvements miba_opts
     
     player_stats.each { |ps| ps.merge!({ player_name: Player.find(ps[:player_id]).full_name }) }
     

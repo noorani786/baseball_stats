@@ -17,7 +17,7 @@ class BattingStat < ActiveRecord::Base
   #   end_year:    -- end year for comparision
   #   exclude_any_at_bats_below: -- exclude any players for whom at_bats is lower than this value for the year. 
   # }
-  def self.players_by_batting_average_improvements(opts)
+  def self.batting_average_improvements(opts)
     
     player_improvements = []
     current_player_stats = []
@@ -64,6 +64,10 @@ class BattingStat < ActiveRecord::Base
     where("year = ? OR year = ?", opts[:start_year], opts[:end_year]).
     where("at_bats >= ?", opts[:exclude_any_at_bats_below]).
     order(:player_id, :year)
+  end
+  
+  def self.slugging_percentages(opts)
+    
   end
   
   # def self.players_with_at_bats(exclude_any_at_bats_below)

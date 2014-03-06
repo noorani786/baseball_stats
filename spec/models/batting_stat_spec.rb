@@ -11,7 +11,7 @@ describe BattingStat do
   TOP = 3
   let(:opts) { { top: TOP, start_year: 2012, end_year: 2013, exclude_any_at_bats_below: 200} }
   
-  describe "#players_by_batting_average_improvements" do
+  describe "#batting_average_improvements" do
     context "when no player has above 200 at_bats" do
       let!(:player1_stat_2012) { FactoryGirl.create(:batting_stat, player: player1, year: 2012, at_bats: 10) }
       let!(:player1_stat_2013) { FactoryGirl.create(:batting_stat, player: player1, year: 2013, at_bats: 15) }
@@ -21,7 +21,7 @@ describe BattingStat do
       
       it 'returns empty collection' do
         expect(BattingStat.count).to equal(4)
-        players = BattingStat.players_by_batting_average_improvements(opts)
+        players = BattingStat.batting_average_improvements(opts)
         expect(players).to be_empty
       end
     end
@@ -35,7 +35,7 @@ describe BattingStat do
       
       it 'returns empty collection' do
         expect(BattingStat.count).to equal(4)
-        players = BattingStat.players_by_batting_average_improvements(opts)
+        players = BattingStat.batting_average_improvements(opts)
         expect(players).to be_empty
       end
     end
@@ -51,7 +51,7 @@ describe BattingStat do
       let!(:player3_stat_2013) { FactoryGirl.create(:batting_stat, player: player3, year: 2013, at_bats: 50, hits: 300) } 
        
       it 'returns that player with correct numbers' do
-        players = BattingStat.players_by_batting_average_improvements(opts)
+        players = BattingStat.batting_average_improvements(opts)
         expect(players.count).to eq(1)
         p = players.first
         expect(p[:player_id]).to eq(player1.id)
@@ -78,7 +78,7 @@ describe BattingStat do
       let!(:player5_stat_2013) { FactoryGirl.create(:batting_stat, player: player5, year: 2013, at_bats: 200, hits: 200) }
       
       it "returns top #{TOP} as specified" do
-        players = BattingStat.players_by_batting_average_improvements opts
+        players = BattingStat.batting_average_improvements opts
         expect(players.count).to eq(3)
         expect(players.first[:player_id]).to eq(player3.id)
         expect(players[1][:player_id]).to eq(player2.id)
