@@ -1,0 +1,21 @@
+# This file specifies the input arguments to use invoking the StatsRunner.run() method
+
+# Specifies the options to use for calculating the players with most improved batting averages.
+most_improved_batting_average:
+  top: 1                          # Only include the top X players.
+  start_year: 2009                # Start year for the comparision.
+  end_year: 2010                  # End year for the comparision. 
+  exclude_any_at_bats_below: 200  # Include only if at_bats for the year is atleast this number 
+
+slugging_percentage:
+  team: 'OAK'
+  year: 2007
+
+most_improved_fantasy_players:
+  top: 5
+  start_year: 2011
+  end_year: 2012
+  exclude_any_at_bats_below: 500
+
+triple_crown_winners:
+  years: [2011, 2012]

@@ -9,7 +9,7 @@ describe BattingStat do
   let(:player5) { FactoryGirl.create(:player) }
   
   TOP = 3
-  let(:opts) { { top: TOP, start_year: 2012, end_year: 2013, exclude_any_below_at_bats: 200} }
+  let(:opts) { { top: TOP, start_year: 2012, end_year: 2013, exclude_any_at_bats_below: 200} }
   
   describe "#players_by_batting_average_improvements" do
     context "when no player has above 200 at_bats" do

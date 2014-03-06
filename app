@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 require "./config/environment.rb"
+require 'yaml'
 
-s = StatsRunner.new
-s.run
+StatsRunner.run(YAML.load_file('inputs/args.yml'), $stdout)

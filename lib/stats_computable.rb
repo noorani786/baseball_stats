@@ -1,7 +1,9 @@
 module StatsComputable
+  extend self
+  
   def compute(stats_opts)
     {
-      most_improved_batting_average: compute_most_improved_batting_average(stats_opts[:most_improved_batting_average_opts])
+      most_improved_batting_average: compute_most_improved_batting_average(stats_opts[:most_improved_batting_average])
     } 
   end
   

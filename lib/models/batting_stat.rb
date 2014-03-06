@@ -15,9 +15,10 @@ class BattingStat < ActiveRecord::Base
   #   top:        -- indicates the number of top players to return (ex: top 10)
   #   start_year:  -- start year for comparision
   #   end_year:    -- end year for comparision
-  #   exclude_any_below_at_bats: -- exclude any players for whom at_bats is lower than this value for the year. 
+  #   exclude_any_at_bats_below: -- exclude any players for whom at_bats is lower than this value for the year. 
   # }
   def self.players_by_batting_average_improvements(opts)
+    
     player_improvements = []
     current_player_stats = []
     current_player_id = nil
@@ -54,18 +55,18 @@ class BattingStat < ActiveRecord::Base
   # opts => { 
   #   start_year:  -- start year for comparision
   #   end_year:    -- end year for comparision
-  #   exclude_any_below_at_bats: -- exclude any players for whom at_bats is lower than this value for the year. 
+  #   exclude_any_at_bats_below: -- exclude any players for whom at_bats is lower than this value for the year. 
   # }
   def self.batting_averages(opts)
-    opts = { from_year: 1901, to_year: 9999, exclude_any_below_at_bats: 0}.merge(opts)
+    opts = { start_year: 1901, end_year: 9999, exclude_any_at_bats_below: 0}.merge(opts)
     
     select("player_id, year, hits / (at_bats * 1.0) as batting_avg").
     where("year = ? OR year = ?", opts[:start_year], opts[:end_year]).
-    where("at_bats >= ?", opts[:exclude_any_below_at_bats]).
+    where("at_bats >= ?", opts[:exclude_any_at_bats_below]).
     order(:player_id, :year)
   end
   
-  # def self.players_with_at_bats(exclude_any_below_at_bats)
-  #   group(:player_id).select(:player_id).having("sum(at_bats) >= ?", exclude_any_below_at_bats)
+  # def self.players_with_at_bats(exclude_any_at_bats_below)
+  #   group(:player_id).select(:player_id).having("sum(at_bats) >= ?", exclude_any_at_bats_below)
   # end
 end
