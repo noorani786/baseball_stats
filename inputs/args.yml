@@ -7,9 +7,10 @@ most_improved_batting_average:
   end_year: 2010                  # End year for the comparision. 
   exclude_any_at_bats_below: 200  # Include only if at_bats for the year is atleast this number 
 
+# Specifies the options computing slugging percentages for a given team/year.
 slugging_percentage:
-  team: 'OAK'
-  year: 2007
+  team: 'OAK'   # Team for which to compute the percentages
+  year: 2007    # Year for which to computer the percentages
 
 most_improved_fantasy_players:
   top: 5

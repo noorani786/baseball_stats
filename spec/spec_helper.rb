@@ -60,7 +60,7 @@ RSpec.configure do |config|
   config.tty = true
 
   # Use the specified formatter
-  config.formatter = :documentation #:documentation # :progress, :html, :textmate
+  config.formatter = :progress #:documentation # :progress, :html, :textmate
 end
 
 ActiveRecord::Base.logger = Logger.new('log/test.log')

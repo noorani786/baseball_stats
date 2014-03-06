@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe StatsComputable do
-  describe "compute_most_improved_batting_average" do
+  describe "#compute_most_improved_batting_average" do
     opts = { top: 1, start_year: 2012, end_year: 2013, exclude_any_at_bats_below: 200 }
     
     let!(:player1) { FactoryGirl.create(:player) }
@@ -17,10 +17,34 @@ describe StatsComputable do
     
     it 'includes player_name, start_year_average, end_year_average, and improvement' do
       ps = stats[:result].first
-      expect(ps).to include(:player_name)
-      expect(ps).to include(:start_year_average)
-      expect(ps).to include(:end_year_average)
+      expect(ps).to include(:first_name)
+      expect(ps).to include(:last_name)
+      expect(ps).to include(:start_year_calc)
+      expect(ps).to include(:end_year_calc)
       expect(ps).to include(:improvement)
+    end
+  end
+  
+  describe "#compute_slugging_percentages" do
+    opts = { team: 'DET', year: 2013 }
+    
+    let!(:miguel_c) { FactoryGirl.create(:miguel_c) } 
+    let!(:max_s)    { FactoryGirl.create(:max_s) }
+    let!(:torii_h)  { FactoryGirl.create(:torii_h) } 
+    let!(:jhonny_p) { FactoryGirl.create(:jhonny_p) }
+    
+    let(:stats) { StatsComputable.compute_slugging_percentages opts }    
+    
+    it 'returns hash with opts and result' do  
+      expect(stats).to include(:opts)
+      expect(stats).to include(:result)
+    end
+    
+    it 'includes player_name and slugging_percentage' do
+      ps = stats[:result].first
+      expect(ps).to respond_to(:first_name) 
+      expect(ps).to respond_to(:last_name)
+      expect(ps).to respond_to(:slugging_percentage)
     end
   end
 end

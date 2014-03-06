@@ -55,8 +55,8 @@ describe BattingStat do
         expect(players.count).to eq(1)
         p = players.first
         expect(p[:player_id]).to eq(player1.id)
-        expect(p[:start_year_average]).to eq(player1_stat_2012.batting_average)
-        expect(p[:end_year_average]).to eq(player1_stat_2013.batting_average)
+        expect(p[:start_year_calc]).to eq(player1_stat_2012.batting_average)
+        expect(p[:end_year_calc]).to eq(player1_stat_2013.batting_average)
         expect(p[:improvement]).to eq(player1_stat_2013.batting_average - player1_stat_2012.batting_average)
       end
     end
@@ -74,8 +74,8 @@ describe BattingStat do
       let!(:player4_stat_2012) { FactoryGirl.create(:batting_stat, player: player4, year: 2012, at_bats: 500, hits: 100) }
       let!(:player4_stat_2013) { FactoryGirl.create(:batting_stat, player: player4, year: 2013, at_bats: 500, hits: 50) }
       
-      let!(:player5_stat_2012) { FactoryGirl.create(:batting_stat, player: player5, year: 2012, at_bats: 100, hits: 100) }
-      let!(:player5_stat_2013) { FactoryGirl.create(:batting_stat, player: player5, year: 2013, at_bats: 200, hits: 200) }
+      let!(:player5_stat_2012) { FactoryGirl.create(:batting_stat, player: player5, year: 2012, at_bats: 500, hits: 50) }
+      let!(:player5_stat_2013) { FactoryGirl.create(:batting_stat, player: player5, year: 2013, at_bats: 500, hits: 20) }
       
       it "returns top #{TOP} as specified" do
         players = BattingStat.batting_average_improvements opts
@@ -83,6 +83,64 @@ describe BattingStat do
         expect(players.first[:player_id]).to eq(player3.id)
         expect(players[1][:player_id]).to eq(player2.id)
         expect(players.last[:player_id]).to eq(player1.id)
+      end
+    end
+    
+    context "when some players don't fall in range" do
+      let!(:player1_stat_2012) { FactoryGirl.create(:batting_stat, player: player1, year: 2012, at_bats: 500, hits: 100) }
+      let!(:player1_stat_2013) { FactoryGirl.create(:batting_stat, player: player1, year: 2013, at_bats: 500, hits: 150) }
+      
+      let!(:player2_stat_2012) { FactoryGirl.create(:batting_stat, player: player2, year: 2012, at_bats: 500, hits: 100) }
+      let!(:player2_stat_2013) { FactoryGirl.create(:batting_stat, player: player2, year: 2011, at_bats: 500, hits: 200) }
+      
+      let!(:player3_stat_2012) { FactoryGirl.create(:batting_stat, player: player3, year: 2012, at_bats: 500, hits: 100) }
+      let!(:player3_stat_2013) { FactoryGirl.create(:batting_stat, player: player3, year: 2013, at_bats: 500, hits: 300) }
+      
+      let!(:player4_stat_2012) { FactoryGirl.create(:batting_stat, player: player4, year: 2012, at_bats: 100, hits: 100) }
+      let!(:player4_stat_2013) { FactoryGirl.create(:batting_stat, player: player4, year: 2013, at_bats: 500, hits: 50) }
+      
+      let!(:player5_stat_2012) { FactoryGirl.create(:batting_stat, player: player5, year: 2012, at_bats: 500, hits: 50) }
+      let!(:player5_stat_2013) { FactoryGirl.create(:batting_stat, player: player5, year: 2013, at_bats: 500, hits: 20) }
+      
+      it "returns top #{TOP} as specified" do
+        players = BattingStat.batting_average_improvements opts
+        expect(players.count).to eq(3)
+        expect(players.first[:player_id]).to eq(player3.id)
+        expect(players[1][:player_id]).to eq(player1.id)
+        expect(players.last[:player_id]).to eq(player5.id)
+      end
+    end
+  end
+  
+  describe "#slugging_percentages" do
+    
+    context 'when there is only one player' do
+      # use actual numbers for 2013 MLB season so we can just compare against the real percentage
+      let!(:miguel_c) { FactoryGirl.create(:miguel_c, player: player1) }  
+      it 'correctly computes slugging percentage' do
+        stat = BattingStat.slugging_percentages({ team: 'DET', year: 2013 })
+        expect(stat.count).to eq(1)
+        expect(stat.first.slugging_percentage.round(3)).to eq(0.636)
+      end   
+    end
+    
+    context 'when there are multiple players' do
+      
+      let!(:miguel_c) { FactoryGirl.create(:miguel_c, player: player1) } 
+      let!(:max_s)    { FactoryGirl.create(:max_s, player: player2) }
+      let!(:torii_h)  { FactoryGirl.create(:torii_h, player: player3) } 
+      let!(:jhonny_p) { FactoryGirl.create(:jhonny_p, player: player4) }
+      
+      it 'returns them by slugging_percentage in desc order' do
+        stat = BattingStat.slugging_percentages({ team: 'DET', year: 2013})
+        expect(stat.count).to eq(4)
+        
+        sp = lambda { |idx| stat[idx].slugging_percentage.round(3) }
+        
+        expect(sp.call 0).to eq(0.667)
+        expect(sp.call 1).to eq(0.636)
+        expect(sp.call 2).to eq(0.465)
+        expect(sp.call 3).to eq(0.457)  
       end
       
     end

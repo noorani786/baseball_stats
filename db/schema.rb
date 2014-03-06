@@ -17,10 +17,12 @@ ActiveRecord::Schema.define(:version => 20140304004044) do
     t.integer  "player_id"
     t.string   "team"
     t.integer  "year"
+    t.integer  "games"
     t.integer  "at_bats"
+    t.integer  "runs"
     t.integer  "hits"
     t.integer  "doubles"
-    t.integer  "singles"
+    t.integer  "triples"
     t.integer  "home_runs"
     t.integer  "runs_batted_in"
     t.integer  "stolen_bases"
@@ -29,7 +31,7 @@ ActiveRecord::Schema.define(:version => 20140304004044) do
     t.datetime "updated_at",      :null => false
   end
 
-  add_index "batting_stats", ["player_id", "team", "year"], :name => "index_batting_stats_on_player_id_and_team_and_year", :unique => true
+  add_index "batting_stats", ["player_id", "year"], :name => "index_batting_stats_on_player_id_and_year", :unique => true
   add_index "batting_stats", ["player_id"], :name => "index_batting_stats_on_player_id"
 
   create_table "players", :force => true do |t|

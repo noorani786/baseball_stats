@@ -13,10 +13,12 @@ class BattingStatUploader
         player = Player.where(player_legacy_id: row_hash[:playerid]).first_or_create
         batting_stats = player.batting_stats.where(year: row_hash[:yearid].to_i, team: row_hash[:teamid]).first_or_create
         batting_stats.update_attributes({
+          games:            try_to_i(row_hash[:games]),
           at_bats:          try_to_i(row_hash[:ab]),
+          runs:             try_to_i(row_hash[:runs]),
           hits:             try_to_i(row_hash[:h]),
           doubles:          try_to_i(row_hash['2b'.to_sym]),
-          singles:          try_to_i(row_hash['3b'.to_sym]),
+          triples:          try_to_i(row_hash['3b'.to_sym]),
           home_runs:        try_to_i(row_hash[:hr]),
           runs_batted_in:   try_to_i(row_hash[:rbi]),
           stolen_bases:     try_to_i(row_hash[:sb]),

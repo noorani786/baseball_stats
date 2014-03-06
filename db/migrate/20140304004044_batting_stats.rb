@@ -4,10 +4,12 @@ class BattingStats < ActiveRecord::Migration
       t.integer   :player_id
       t.string    :team
       t.integer   :year
+      t.integer   :games
       t.integer   :at_bats
+      t.integer   :runs
       t.integer   :hits
       t.integer   :doubles
-      t.integer   :singles
+      t.integer   :triples
       t.integer   :home_runs
       t.integer   :runs_batted_in
       t.integer   :stolen_bases

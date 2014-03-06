@@ -18,8 +18,9 @@ describe BattingStatUploader do
         (0..4).each do |i|
           stats[i].at_bats.should eq(i + 1 + 10)
           stats[i].hits.should eq(i + 1 + 11)
+          stats[i].hits.should eq(i + 1 + 11)
           stats[i].doubles.should eq(i + 1 + 12)
-          stats[i].singles.should eq(i + 1 + 13)
+          stats[i].triples.should eq(i + 1 + 13)
           stats[i].home_runs.should eq(i + 1 + 14)
           stats[i].runs_batted_in.should eq(i + 1 + 15)
           stats[i].stolen_bases.should eq(i + 1 + 16)
