@@ -25,7 +25,7 @@
 
 ## Pushing to Prod
 
-1. The app assumes that your DB connection to PROD is stored in an environment variable.  In particular the ENV variable to set the database URL is 'DATABASE_URL'.  Be sure to set this variable to the URL where your production database resides after pushing the codebase to production.  In the event that you are using another strategy for connecting to the production database, replace lines 12 - 22 inside Rakefile with your specific strategy.
+The app assumes that your DB connection to PROD is stored in an environment variable.  In particular the ENV variable to set the database URL is 'DATABASE_URL'.  Be sure to set this variable to the URL where your production database resides after pushing the codebase to production.  In the event that you are using another strategy for connecting to the production database, replace lines 12 - 22 inside Rakefile with your specific strategy.
 
 ## Notes and Comments
 
@@ -48,5 +48,5 @@
   has a higher batting average than Miguel Carbrera:
     - Joey Votto at .337
   
-1. When computing the triple crown winner we need to apply the rule exclude any players with a low a_bats count.  Otherwise a player with at_bats=1 and hits=1 will end up with the highest batting average.
+1. When computing the triple crown winner we need to apply the rule to exclude any players with a low at_bats count.  Otherwise a player with at_bats=1 and hits=1 will end up with the highest batting average.
     
