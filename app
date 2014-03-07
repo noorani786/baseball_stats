@@ -2,4 +2,6 @@
 require "./config/environment.rb"
 require 'yaml'
 
-StatsRunner.run(YAML.load_file('inputs/args.yml'), $stdout)
+input_file  = 'inputs/args.yml'
+
+StatsRunner.run(YAML.load_file(input_file), $stdout)
