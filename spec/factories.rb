@@ -8,7 +8,7 @@ FactoryGirl.define do
   factory :batting_stat do
     player
     year 2000
-    team 'Team A'
+    team 'team A'
     at_bats 10  
     hits 10
     doubles 10
@@ -27,6 +27,21 @@ FactoryGirl.define do
     player
     year 2013
     team 'DET'
+    at_bats 555
+    runs 103
+    hits 193
+    doubles 26
+    triples 1
+    home_runs 44
+    runs_batted_in 137
+    stolen_bases 3
+    caught_stealing 0
+  end
+  
+  factory :miguel_c_COL, class: BattingStat do
+    player
+    year 2013
+    team 'COL'
     at_bats 555
     runs 103
     hits 193

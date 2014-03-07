@@ -18,7 +18,7 @@ class BattingStats < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :batting_stats, [:player_id, :year], unique: true
+    add_index :batting_stats, [:player_id, :year, :team], unique: true
     add_index :batting_stats, :player_id
   end
   

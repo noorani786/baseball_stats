@@ -11,19 +11,22 @@ class BattingStatUploader
       row_hash = row.to_hash
       if row_hash[:playerid].present? && row_hash[:yearid].present? && row_hash[:teamid].present?
         player = Player.where(player_legacy_id: row_hash[:playerid]).first_or_create
-        batting_stats = player.batting_stats.where(year: row_hash[:yearid].to_i, team: row_hash[:teamid]).first_or_create
-        batting_stats.update_attributes({
-          games:            try_to_i(row_hash[:games]),
-          at_bats:          try_to_i(row_hash[:ab]),
-          runs:             try_to_i(row_hash[:runs]),
-          hits:             try_to_i(row_hash[:h]),
-          doubles:          try_to_i(row_hash['2b'.to_sym]),
-          triples:          try_to_i(row_hash['3b'.to_sym]),
-          home_runs:        try_to_i(row_hash[:hr]),
-          runs_batted_in:   try_to_i(row_hash[:rbi]),
-          stolen_bases:     try_to_i(row_hash[:sb]),
-          caught_stealing:  try_to_i(row_hash[:cs])
-          })
+        batting_stats = player.batting_stats.where(year: row_hash[:yearid].to_i, team: row_hash[:teamid]).first_or_initialize
+        
+        batting_stats.assign_attributes({
+          games:            to_i(row_hash[:g]),
+          at_bats:          to_i(row_hash[:ab]),
+          runs:             to_i(row_hash[:r]),
+          hits:             to_i(row_hash[:h]),
+          doubles:          to_i(row_hash['2b'.to_sym]),
+          triples:          to_i(row_hash['3b'.to_sym]),
+          home_runs:        to_i(row_hash[:hr]),
+          runs_batted_in:   to_i(row_hash[:rbi]),
+          stolen_bases:     to_i(row_hash[:sb]),
+          caught_stealing:  to_i(row_hash[:cs])
+        })
+        
+        batting_stats.save
       else
         skipped_records << row_hash
       end
@@ -31,7 +34,9 @@ class BattingStatUploader
     skipped_records
   end
   
-  def self.try_to_i(value)
-    value.to_i if value.present?
+  private 
+  
+  def self.to_i(val)
+    (val || 0).to_i
   end
 end

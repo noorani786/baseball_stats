@@ -4,29 +4,31 @@ module StatsComputable
   def compute(stats_opts)
     {
       most_improved_batting_average: compute_most_improved_batting_average(stats_opts[:most_improved_batting_average]),
-      slugging_percentages: compute_slugging_percentages(stats_opts[:slugging_percentage])
+      slugging_percentages: compute_slugging_percentages(stats_opts[:slugging_percentage]),
+      most_improved_fantasy_players: compute_most_improved_fantasy_players(stats_opts[:most_improved_fantasy_players]),
+      triple_crown_winners: compute_triple_crown_winners(stats_opts[:triple_crown_winners])
     } 
   end
   
   def compute_most_improved_batting_average(miba_opts)
-    player_stats = BattingStat.batting_average_improvements miba_opts
-    
-    # include_player_name player_stats
-    
-    { opts: miba_opts, result: player_stats }
+    stat_package miba_opts, BattingStat.batting_average_improvements(miba_opts)
   end
   
   def compute_slugging_percentages(sp_opts)
-    stats = BattingStat.slugging_percentages sp_opts
-    
-    # include_player_name stats
-    
-    { opts: sp_opts, result: stats }
+    stat_package sp_opts, BattingStat.slugging_percentages(sp_opts)
   end
   
-  private 
+  def compute_most_improved_fantasy_players(fs_opts)
+    stat_package fs_opts, BattingStat.fantasy_score_improvements(fs_opts)
+  end
   
-  # def include_player_name(stats)
-  #   stats.each { |s| s.merge!({ player_name: Player.find(s[:player_id]).full_name }) }
-  # end
+  def compute_triple_crown_winners(tc_opts)
+    stat_package tc_opts, BattingStat.triple_crown_winners(tc_opts)
+  end
+  
+  private
+  
+  def stat_package(opts, result)
+    { opts: opts, result: result }
+  end
 end

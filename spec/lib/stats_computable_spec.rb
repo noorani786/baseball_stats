@@ -15,7 +15,7 @@ describe StatsComputable do
       expect(stats).to include(:result)
     end
     
-    it 'includes player_name, start_year_average, end_year_average, and improvement' do
+    it 'includes player_name, start_year_calc, end_year_calc, and improvement' do
       ps = stats[:result].first
       expect(ps).to include(:first_name)
       expect(ps).to include(:last_name)
@@ -45,6 +45,30 @@ describe StatsComputable do
       expect(ps).to respond_to(:first_name) 
       expect(ps).to respond_to(:last_name)
       expect(ps).to respond_to(:slugging_percentage)
+    end
+  end
+  
+  describe "#compute_most_improved_fantasy_players" do
+    opts = { top: 1, start_year: 2012, end_year: 2013, exclude_any_at_bats_below: 200 }
+    
+    let!(:player1) { FactoryGirl.create(:player) }
+    let!(:player1_stat_2012) { FactoryGirl.create(:batting_stat, player: player1, year: 2012, at_bats: 500, home_runs: 200) }
+    let!(:player1_stat_2013) { FactoryGirl.create(:batting_stat, player: player1, year: 2013, at_bats: 500, home_runs: 300) }
+    
+    let(:stats) { StatsComputable.compute_most_improved_fantasy_players opts }
+    
+    it 'returns hash with opts and result' do  
+      expect(stats).to include(:opts)
+      expect(stats).to include(:result)
+    end
+    
+    it 'includes player_name, start_year_calc, end_year_calc, and improvement' do
+      ps = stats[:result].first
+      expect(ps).to include(:first_name)
+      expect(ps).to include(:last_name)
+      expect(ps).to include(:start_year_calc)
+      expect(ps).to include(:end_year_calc)
+      expect(ps).to include(:improvement)
     end
   end
 end

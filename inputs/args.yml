@@ -9,14 +9,16 @@ most_improved_batting_average:
 
 # Specifies the options computing slugging percentages for a given team/year.
 slugging_percentage:
-  team: 'OAK'   # Team for which to compute the percentages
+  team: 'OAK'   # team for which to compute the percentages
   year: 2007    # Year for which to computer the percentages
 
+# Specifies the options to use for calculating the players with most improved batting averages.
 most_improved_fantasy_players:
-  top: 5
-  start_year: 2011
-  end_year: 2012
-  exclude_any_at_bats_below: 500
+  top: 5                          # Only include the top X players.
+  start_year: 2011                # Start year for the comparision.
+  end_year: 2012                  # End year for the comparision. 
+  exclude_any_at_bats_below: 500  # Include only if at_bats for the year is atleast th
 
 triple_crown_winners:
   years: [2011, 2012]
+  exclude_any_at_bats_below: 200

@@ -16,6 +16,7 @@ describe BattingStatUploader do
         
         stats = BattingStat.all.to_a
         (0..4).each do |i|
+          stats[i].games.should eq(i + 1)
           stats[i].at_bats.should eq(i + 1 + 10)
           stats[i].hits.should eq(i + 1 + 11)
           stats[i].hits.should eq(i + 1 + 11)
@@ -37,6 +38,18 @@ describe BattingStatUploader do
         updated_stat_player = Player.where(player_legacy_id: 'legacy2').first
         updated_stat = updated_stat_player.batting_stats.first
         updated_stat.at_bats.should eq(50)
+      end
+      
+      it 'handles players with multiple teams in a year' do
+        skipped_records = BattingStatUploader.upload fixture_file_path('valid_has_player_with_multiple_teams_batting_stats.csv')
+        expect(Player.count).to eq(3)
+        expect(BattingStat.count).to eq(6)
+        expect(skipped_records.count).to eq(0)
+        
+        updated_stat_player = Player.where(player_legacy_id: 'legacy2').first
+        expect(updated_stat_player.batting_stats.count).to eq(2)
+        expect(updated_stat_player.batting_stats.first.at_bats).to eq(12)
+        expect(updated_stat_player.batting_stats.last.at_bats).to eq(50)
       end
     end
     

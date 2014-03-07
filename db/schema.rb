@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(:version => 20140304004044) do
     t.datetime "updated_at",      :null => false
   end
 
-  add_index "batting_stats", ["player_id", "year"], :name => "index_batting_stats_on_player_id_and_year", :unique => true
+  add_index "batting_stats", ["player_id", "year", "team"], :name => "index_batting_stats_on_player_id_and_year_and_team", :unique => true
   add_index "batting_stats", ["player_id"], :name => "index_batting_stats_on_player_id"
 
   create_table "players", :force => true do |t|
