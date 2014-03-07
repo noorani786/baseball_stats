@@ -355,7 +355,7 @@ describe BattingStat do
       let!(:player3_stat_2014) { FactoryGirl.create(:batting_stat, player: player3, year: 2014, at_bats: 500, hits: 500, home_runs: 100, runs_batted_in: 100) }
             
       
-      it 'returns them by slugging_percentage in desc order' do
+      it 'returns the winner with info' do
         stat = BattingStat.triple_crown_winners({ years: [2012, 2013], exclude_any_at_bats_below: 200 })
         expect(stat.count).to eq(2)
         expect(stat.first[:player_id]).to eq(player3.id)
